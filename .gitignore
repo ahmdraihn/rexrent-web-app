@@ -1,0 +1,20 @@
+# Typical PHP ignore
+.vscode/
+.idea/
+*.log
+tmp/
+temp/
+
+# MySQL / Database
+*.sql.gz
+*.sql.zip
+
+# OS specific
+Thumbs.db
+.DS_Store
+
+# We WANT to keep database.sql for seeding
+!database.sql
+
+# We WANT to keep assets/images
+!web-app/assets/images/
