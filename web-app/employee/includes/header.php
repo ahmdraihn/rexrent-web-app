@@ -1,0 +1,21 @@
+<header class="header">
+    <div class="header-content">
+        <div class="header-left">
+            <button class="menu-toggle" onclick="toggleSidebar()">[ ☰ ]</button>
+            <img src="../assets/images/logo.png" alt="Rex's Rents" class="header-logo">
+        </div>
+        <div class="header-right">
+            <div class="user-info">
+                <span class="user-name"><?php echo htmlspecialchars($_SESSION['username']); ?></span>
+                <span class="user-role">[ PEGAWAI ]</span>
+            </div>
+        </div>
+    </div>
+</header>
+
+<script>
+function toggleSidebar() {
+    document.querySelector('.sidebar').classList.toggle('collapsed');
+    document.querySelector('.main-content').classList.toggle('expanded');
+}
+</script>
