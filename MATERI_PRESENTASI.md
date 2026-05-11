@@ -12,7 +12,12 @@ Dokumen ini disusun sebagai panduan dan materi presentasi untuk mata kuliah Clou
 *   **Stabilitas (Enterprise-grade)**: Menjadi standar industri untuk deployment aplikasi Cloud karena minim *downtime* dan keamanannya yang kuat.
 *   **Open Source**: Sepenuhnya gratis dengan dukungan komunitas terbesar di dunia.
 
-### 2. Database: MySQL
+### 2. Web Server: Apache (Apache2)
+**Apache** berperan sebagai pelayan web (web server) yang memproses permintaan dari browser pengguna (client). Alasan penggunaannya:
+*   **Keandalan Tinggi**: Apache adalah salah satu web server paling stabil dan banyak digunakan di seluruh dunia.
+*   **Integrasi Mudah**: Sangat mudah diintegrasikan dengan PHP (melalui `libapache2-mod-php`) sehingga script PHP dapat langsung dieksekusi dan hasilnya dikirim kembali ke browser pengguna.
+
+### 3. Database: MySQL
 **MySQL** digunakan sebagai Sistem Manajemen Basis Data Relasional (RDBMS) dengan pertimbangan:
 *   **Relasional & Terstruktur**: Sangat cocok untuk aplikasi sewa mobil yang membutuhkan relasi data ketat (misalnya relasi antara tabel `tb_pelanggan`, `tb_mobil`, dan `tb_transaksi`).
 *   **Performa Tinggi**: Sangat cepat untuk operasi *Read* (membaca data mobil di katalog) maupun *Write* (mencatat transaksi penyewaan).
