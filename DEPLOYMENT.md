@@ -61,5 +61,24 @@ sudo a2enmod rewrite
 sudo systemctl restart apache2
 ```
 
+## 7. VirtualBox Access (Port Forwarding)
+If you are running this server inside VirtualBox with a **NAT** network adapter, you won't be able to access the server's IP directly from your Windows host. You must set up Port Forwarding:
+
+1. Open **VirtualBox Manager** on your host computer.
+2. Right-click your Ubuntu VM -> **Settings** -> **Network**.
+3. Under Adapter 1 (NAT), expand **Advanced** and click **Port Forwarding**.
+4. Add a new rule (Green `+` icon):
+   - **Name:** HTTP
+   - **Protocol:** TCP
+   - **Host Port:** `8080`
+   - **Guest Port:** `80`
+   - *(Leave IP fields blank)*
+5. Click **OK** to save.
+
 ---
-**Deployment Success!** You can now access the site via your server's IP address.
+**Deployment Success!** 
+If you used Port Forwarding, you can access the site via:  
+👉 `http://localhost:8080/web-app/`
+
+If you are using a Bridged Adapter or Cloud VPS, use your server's IP address:  
+👉 `http://YOUR_SERVER_IP/web-app/`
