@@ -1,6 +1,6 @@
 # Ubuntu Server Deployment Guide - Rex's Rents
 
-Follow these steps to deploy the Rex's Rents car rental system on an Ubuntu Server (Apache/MySQL/PHP).
+vboxuser
 
 ## 1. System Requirements
 - Ubuntu 20.04 or 22.04 LTS
@@ -20,9 +20,9 @@ sudo apt install apache2 mysql-server php php-mysqli libapache2-mod-php php-gd -
    ```bash
    cd /var/www/html
    ```
-2. Clone your repository:
+2. Clone your repository (make sure to specify the main branch):
    ```bash
-   sudo git clone https://github.com/ahmdraihn/rexrent-web-app.git .
+   sudo git clone -b main https://github.com/ahmdraihn/rexrent-web-app.git .
    ```
 3. Set permissions for the image upload folder:
    ```bash
