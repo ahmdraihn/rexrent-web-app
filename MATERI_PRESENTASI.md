@@ -22,7 +22,7 @@ Dokumen ini disusun sebagai panduan dan materi presentasi untuk mata kuliah Clou
 *   **Relasional & Terstruktur**: Sangat cocok untuk aplikasi sewa mobil yang membutuhkan relasi data ketat (misalnya relasi antara tabel `tb_pelanggan`, `tb_mobil`, dan `tb_transaksi`).
 *   **Performa Tinggi**: Sangat cepat untuk operasi *Read* (membaca data mobil di katalog) maupun *Write* (mencatat transaksi penyewaan).
 
-### 3. Bahasa Pemrograman & Framework (Tech Stack)
+### 4. Bahasa Pemrograman & Framework (Tech Stack)
 *   **Backend (PHP Native)**: Aplikasi ini dibangun menggunakan PHP murni tanpa framework besar (seperti Laravel/CodeIgniter). Tujuannya agar aplikasi sangat ringan, memori yang digunakan kecil, dan kecepatan pemrosesan data maksimal. PHP menangani logika bisnis, autentikasi (dengan *Bcrypt hashing* untuk keamanan password), dan interaksi ke MySQL (*Prepared Statements* untuk mencegah SQL Injection).
 *   **Frontend (Tailwind CSS)**: Untuk tampilan antarmuka (UI), aplikasi ini menggunakan Tailwind CSS. Ini adalah *utility-first framework* yang memungkinkan pembuatan desain bertema **Brutalism** (desain modern dengan warna tegas, border tebal, dan animasi *hardware-accelerated* yang berjalan mulus di 60fps) secara cepat dan sangat responsif di berbagai ukuran layar.
 
@@ -90,3 +90,28 @@ Mengubah konfigurasi menjadi:
 
 Setelah disimpan, website sudah sepenuhnya berhasil dideploy dan dapat diakses dari Windows (Host) melalui browser pada alamat:
 👉 **http://localhost:8080/web-app/**
+
+---
+
+## BAGIAN 3: KENDALA & SOLUSI SELAMA DEPLOYMENT
+Untuk melengkapi presentasi (biasanya dosen akan menanyakan ini), berikut adalah beberapa kendala *real* yang dihadapi selama proses pemindahan aplikasi dari XAMPP Windows ke lingkungan Linux (Ubuntu Server) beserta solusinya:
+
+### 1. Masalah Jaringan VirtualBox (Terjebak Captive Portal Wi-Fi Kampus)
+*   **Kendala**: Saat menggunakan mode *Bridged Adapter*, Ubuntu gagal mengunduh paket (`apt update`) karena koneksi internet dialihkan ke halaman login Wi-Fi kampus, sedangkan server tidak memiliki GUI/Browser untuk login.
+*   **Solusi**: Mengubah mode jaringan VirtualBox menjadi **NAT** agar Ubuntu Server menumpang koneksi internet dari Windows (yang sudah login Wi-Fi).
+
+### 2. Akses Aplikasi dari Host (Limitasi NAT)
+*   **Kendala**: Mode NAT membuat IP Ubuntu tersembunyi (biasanya `10.0.x.x`), sehingga browser di Windows tidak bisa langsung membuka website melalui IP tersebut.
+*   **Solusi**: Melakukan konfigurasi **Port Forwarding** di VirtualBox dengan mengarahkan Port Host `8080` ke Port Guest `80` (Apache).
+
+### 3. Masalah Kredensial Database (Access Denied)
+*   **Kendala**: Terdapat pesan *HTTP Error 500* karena file `config.php` masih menggunakan username bawaan XAMPP (`root` tanpa password), sedangkan di Ubuntu kita membuat *user* MySQL yang jauh lebih aman (`rexuser`).
+*   **Solusi**: Mengedit file `/var/www/html/web-app/config.php` melalui terminal Ubuntu dan menyesuaikan `DB_USER` dan `DB_PASS` dengan kredensial Ubuntu Server.
+
+### 4. Gagal Upload Foto (Masalah Hak Akses/Permissions)
+*   **Kendala**: Data mobil berhasil disimpan ke database, tetapi foto gagal diupload (*broken image*). Hal ini karena direktori `/assets/images/mobil/` terkunci oleh `root` (karena proses *git clone* menggunakan `sudo`).
+*   **Solusi**: Mengubah kepemilikan folder (*ownership*) ke *user* Apache dengan perintah `sudo chown -R www-data:www-data` dan mengubah *permission* menjadi `775`.
+
+### 5. Limitasi Ukuran File Bawaan Server
+*   **Kendala**: Gambar dengan resolusi tinggi atau berukuran besar ditolak diam-diam oleh server saat diunggah.
+*   **Solusi**: Mengedit konfigurasi inti PHP (`/etc/php/8.3/apache2/php.ini`) untuk menaikkan `upload_max_filesize` dan `post_max_size` dari bawaan 2MB menjadi 10MB, lalu me-*restart* Apache.
